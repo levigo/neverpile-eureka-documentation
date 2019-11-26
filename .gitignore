@@ -49,3 +49,4 @@ src/main/public/WEB-INF/deploy
 # Spring
 ######################
 .factorypath
+/node_modules/
