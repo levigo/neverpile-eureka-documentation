@@ -1,4 +1,4 @@
 ---
 type: "search-index"
-url: "index.json"
+url: "index-en.json"
 ---

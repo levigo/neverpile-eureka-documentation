@@ -50,3 +50,5 @@ src/main/public/WEB-INF/deploy
 ######################
 .factorypath
 /node_modules/
+/public/
+/resources/
