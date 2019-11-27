@@ -1,6 +1,9 @@
-name: CI
+name: Continuous Delivery (automatic documentation build and deployment)
 
-on: [push]
+on: 
+  push:
+    branches:
+      - master
 
 jobs:
   build:
