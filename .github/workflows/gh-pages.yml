@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       with:
-        submodules: true 
+        submodules: recursive 
     
     - name: Hugo setup
       uses: peaceiris/actions-hugo@v2.3.0
@@ -19,16 +19,12 @@ jobs:
         hugo-version: 0.59.1
         extended: true
     
-    
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x 
     - name: npm install
       run: npm install
       
-    - name: now what?
-      run: find .
-
     - name: Build
       run: hugo --minify
 
