@@ -18,7 +18,10 @@ jobs:
         # The Hugo version to download (if necessary) and use. Example: 0.58.2
         hugo-version: 0.59.1
         extended: true
-        
+    
+    - name: npm install
+      run: npm install
+      
     - name: Build
       run: hugo --minify
 
