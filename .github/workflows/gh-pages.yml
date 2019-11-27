@@ -34,3 +34,15 @@ jobs:
         ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./public  
+
+    ## Notify Slack
+    - name: Notify slack
+      uses: hennejg/slack-build-notifier@v1.1
+      with:
+        username: GitHub
+        icon_emoji: octocat
+        text: Deployed new documentation from *${{ github.repository }}* to https://levigo.github.io/neverpile-eureka-documentation/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
