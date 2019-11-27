@@ -1,0 +1,36 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive 
+    
+    - name: Hugo setup
+      uses: peaceiris/actions-hugo@v2.3.0
+      with:
+        # The Hugo version to download (if necessary) and use. Example: 0.58.2
+        hugo-version: 0.59.1
+        extended: true
+    
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10.x 
+    - name: npm install
+      run: npm install
+      
+    - name: Build
+      run: hugo --minify
+
+    - name: Deploy
+      uses: docker://peaceiris/gh-pages:v2.5.1
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./public  
