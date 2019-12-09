@@ -1,21 +1,23 @@
 {
-  "name": "tech-doc-hugo",
+  "name": "neverpile-eureka-documentation",
   "version": "0.0.1",
-  "description": "Hugo theme for technical documentation.",
-  "main": "none.js",
+  "description": "Documentation for the neverpile eureka archive system.",
+  "main": "neverpile-eureka-documentation",
   "scripts": {
+    "start": "hugo server --themesDir .\\themes\\",
+    "build": "hugo --themesDir .\\themes\\",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bep/tech-doc-hugo.git"
+    "url": "git+https://github.com/levigo/neverpile-eureka-documentation.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "levigo solutions GmbH",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bep/tech-doc-hugo/issues"
+    "url": "https://github.com/levigo/neverpile-eureka-documentation/issues"
   },
-  "homepage": "https://github.com/bep/tech-doc-hugo#readme",
+  "homepage": "https://neverpile.com/",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^9.7.3",

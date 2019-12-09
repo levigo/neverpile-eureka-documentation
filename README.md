@@ -1,58 +1,28 @@
-# Docsy Example
+# neverpile eureka - documentation
+The documentation can be found [here](https://levigo.github.io/neverpile-eureka-documentation/)  
+This is the documentation Project for neverpile eureka.  
+We use  [Hugo](https://gohugo.io/) in combination with the  [Docsy](https://github.com/google/docsy) theme to generate a documentation page powered by [GitHub Pages](https://pages.github.com/).
 
-[Docsy](https://github.com/google/docsy) is a Hugo theme for technical documentation sites, providing easy site navigation, structure, and more. This **Docsy Example Project** uses the Docsy theme, as well as providing a skeleton documentation structure for you to use. You can either copy this project and edit it with your own content, or use the theme in your projects like any other [Hugo theme](https://gohugo.io/themes/installing-and-using-themes/).
+## Set up the project
 
-This Docsy Example Project is hosted at [https://example.docsy.dev/](https://example.docsy.dev/).
-
-You can find detailed theme instructions in the Docsy user guide: https://docsy.dev/docs/
-
-This is not an officially supported Google product. This project is currently maintained.
-
-## Cloning the Docsy Example Project
-
-The following will give you a project that is set up and ready to use (don't forget to use `--recurse-submodules` or you won't pull down some of the code you need to generate a working site). The `hugo server` command builds and serves the site. If you just want to build the site, run `hugo` instead.
-
+This project contains the [Docsy](https://github.com/google/docsy) theme as a Git submodule a per convention to run themes on hugo. Therefore clone the repository with:
 ```bash
-git clone --recurse-submodules --depth 1 https://github.com/google/docsy-example.git
-cd docsy-example
-hugo server
+git clone --recurse-submodules --depth 1 https://github.com/levigo/neverpile-eureka-documentation.git
 ```
-
-The theme is included as a Git submodule:
-
-```bash
-▶ git submodule
- a053131a4ebf6a59e4e8834a42368e248d98c01d themes/docsy (heads/master)
-```
-
-If you want to do SCSS edits and want to publish these, you need to install `PostCSS` (not needed for `hugo server`):
-
+After the repository is downloaded install the necessary development dependencies:
 ```bash
 npm install
 ```
-
-<!--### Cloning the Example from the Theme Project
-
-
+the project is now ready and can be served on a development server via:
 ```bash
-git clone --recurse-submodules --depth 1 https://github.com/docsy.git
-cd tech-doc-hugo-theme/exampleSite
-HUGO_THEMESDIR="../.." hugo server
+npm run start
+```
+After the development server is started you can reach the documentation under:
+```
+http://localhost:1313/neverpile-eureka-documentation/
 ```
 
-
-Note that the Hugo Theme Site requires the `exampleSite` to live in a subfolder of the theme itself. To avoid recursive duplication, the example site is added as a Git subtree:
-
+If you just want to build the site instead, run:
 ```bash
-git subtree add --prefix exampleSite https://github.com/google/docsy.git  master --squash
-```
-
-To pull in changes, see `pull-deps.sh` script in the theme.-->
-
-## Running the website locally
-
-Once you've cloned the site repo, from the repo root folder, run:
-
-```
-hugo server
+npm run build
 ```
