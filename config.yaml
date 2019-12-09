@@ -1,4 +1,4 @@
-baseURL: localhost:1313/neverpile-eureka-documentation/
+baseURL: /neverpile-eureka-documentation/
 title: Neverpile eureka
 
 enableRobotsTXT: true
