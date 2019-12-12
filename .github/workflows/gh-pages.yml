@@ -15,27 +15,21 @@ jobs:
       with:
         submodules: recursive 
     
-    - name: Hugo setup
-      uses: peaceiris/actions-hugo@v2.3.0
-      with:
-        hugo-version: 0.60.1
-        extended: true
-    
     - uses: actions/setup-node@v1
       with:
         node-version: 10.x 
     - name: npm install
-      run: npm install
+      run: npm install --prefix website\
       
     - name: Build
-      run: npm run build --prefix .\website\
+      run: npm run build --prefix website\
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v2
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./website/build  
+        PUBLISH_DIR: ./website/build/neverpile-eureka-documentation  
 
     ## Notify Slack
     - name: Notify slack
