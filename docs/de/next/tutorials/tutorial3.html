@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="de"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>neverpile eureka tutorial 3 · neverpile eureka - dokumentation</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This tutorial is a successor to [tutorial 2](/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial2) and aims to provide insight into development with neverpile eureka. We expand the core functionality of neverpile eureka by implementing our own Plugin. This will give insight on how to add specific functionality beyond the core features."/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="de"/><meta property="og:title" content="neverpile eureka tutorial 3 · neverpile eureka - dokumentation"/><meta property="og:type" content="website"/><meta property="og:url" content="https://levigo.github.io/neverpile-eureka-documentation/"/><meta property="og:description" content="This tutorial is a successor to [tutorial 2](/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial2) and aims to provide insight into development with neverpile eureka. We expand the core functionality of neverpile eureka by implementing our own Plugin. This will give insight on how to add specific functionality beyond the core features."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/neverpile-eureka-documentation/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/neverpile-eureka-documentation/js/scrollSpy.js"></script><link rel="stylesheet" href="/neverpile-eureka-documentation/css/main.css"/><script src="/neverpile-eureka-documentation/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/neverpile-eureka-documentation/de"><img class="logo" src="/neverpile-eureka-documentation/img/levigo-logo-white.svg" alt="neverpile eureka - dokumentation"/><h2 class="headerTitleWithLogo">neverpile eureka - dokumentation</h2></a><a href="/neverpile-eureka-documentation/de/versions"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/neverpile-eureka-documentation/img/language.svg" alt="Languages icon"/>Deutsch</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial3">English</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class=""><a href="/neverpile-eureka-documentation/docs/de/next/" target="_self">Docs</a></li><li class=""><a href="/neverpile-eureka-documentation/docs/de/next/api" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/neverpile-eureka-documentation/docs/de/next/tutorials/" target="_self">Tutorials</a></li><li class=""><a href="/neverpile-eureka-documentation/de/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Tutorials</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Tutorials</h3><ul class=""><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/de/next/tutorials/">Home</a></li><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial1">Tutorial 1</a></li><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial2">Tutorial 2</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial3">Tutorial 3</a></li><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial4">Tutorial 4</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">neverpile eureka tutorial 3</h1></header><article><div><span><p>This tutorial is a successor to <a href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial2">tutorial 2</a> and aims to provide insight into development with neverpile eureka. We expand the core functionality of neverpile eureka by implementing our own Plugin. This will give insight on how to add specific functionality beyond the core features.</p>
+<h2><a class="anchor" aria-hidden="true" id="1-prerequisites"></a><a href="#1-prerequisites" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Prerequisites</h2>
+<p>JDK 1.8+ installed with JAVA_HOME configured appropriately<br>
+Apache Maven 3.5+</p>
+<h2><a class="anchor" aria-hidden="true" id="2-installation"></a><a href="#2-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Installation</h2>
+<p>Clone the git repository:</p>
+<pre><code class="hljs">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://levigo.de/bitbucket/scm/np/neverpile-eureka-getting-<span class="hljs-literal">started</span>.git
+</code></pre>
+<p>Alternatively, download and extract the repository from <a href="https://github.com/levigo/neverpile-eureka-getting-started/archive/master.zip">here</a>..</p>
+<h2><a class="anchor" aria-hidden="true" id="3-project-structure"></a><a href="#3-project-structure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Project structure:</h2>
+<p>Subject to this tutorial is the module <code>neverpile-eureka-tutorial-03</code> and <code>neverpile-eureka-my-plugin</code>.</p>
+<p>The project structure remains unchanged from tutorial 2.</p>
+<h3><a class="anchor" aria-hidden="true" id="31-project-dependencies"></a><a href="#31-project-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 Project dependencies</h3>
+<p>This time we add our own plugin, described next in this tutorial, as a dependency:</p>
+<pre><code class="hljs css language-XML"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-my-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre>
+<p>This added dependency is the only change needed to enable additional functionality  for neverpile eureka. All configuration and injection of additional plugins are handled by <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using-spring-boot.html#using-boot-auto-configuration">springs auto configuration</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="4-plugin-scenairo"></a><a href="#4-plugin-scenairo" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4 Plugin Scenairo</h2>
+<p>For our first plugin, we construct a spimple scenario: An already established CRM system is present in our environment and we want to use information from this system to enrich the document request response made through neverpile eureka. For this tutorial we create a simple mock to emulate this external system as a datastore with some customer records.</p>
+<h2><a class="anchor" aria-hidden="true" id="5-plugin-project-structure"></a><a href="#5-plugin-project-structure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5 Plugin Project structure</h2>
+<p>The project structure and setup is similar to the neverpile eureka.</p>
+<pre><code class="hljs">├── pom.xml                     - Project Maven pom file.
+├── src/main/java/                  - Project Java source directory.
+│   └── com/neverpile/eureka/myplugin/          - Tutorial plugin package name.
+|   ├── MyCRMFacet.java             - CRM facet <span class="hljs-keyword">to</span> expand a document.
+|   ├── MyCRM.java                  -<span class="hljs-built_in"> Interface </span><span class="hljs-keyword">to</span> simulate a CRM system.
+|   ├── MockMyCRMImpl.java              - Mock imlementation of our CRM<span class="hljs-built_in"> system
+</span>|   ├── CustomerInfoRecord.java         - CRM information record.
+│   └── config/                 - configuration package.
+|       └── MyPluginAutoConfiguration.java      - main plugin configuration file.
+└── src/main/resources/                 - Static project resources.
+    └── META-INF/                   - Spring boot admin configuration file.
+    └── application.yml             - Spring boot admin configuration file.
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="51-plugin-project-dependencies"></a><a href="#51-plugin-project-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.1 Plugin Project dependencies</h3>
+<p>We only need the neverpile eureka core dependency to start implementing our plugin:</p>
+<pre><code class="hljs css language-XML"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre>
+<p>The complete pom.xml file:
+<details>
+<summary>pom.xml</summary></p>
+<pre><code class="hljs css language-XML"><span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span>
+         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-getting-started<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-my-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${neverpile-eureka.version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span>
+</code></pre>
+<p></details></p>
+<h3><a class="anchor" aria-hidden="true" id="52-plugin-configuration"></a><a href="#52-plugin-configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.2 Plugin Configuration</h3>
+<p>To use Springs auto-configuration functionality we define a autoconfiguration factory to link to our main configuration file for the plugin.</p>
+<pre><code class="hljs">org<span class="hljs-selector-class">.springframework</span><span class="hljs-selector-class">.boot</span><span class="hljs-selector-class">.autoconfigure</span>.EnableAutoConfiguration=\  
+com<span class="hljs-selector-class">.neverpile</span><span class="hljs-selector-class">.eureka</span><span class="hljs-selector-class">.myplugin</span><span class="hljs-selector-class">.config</span><span class="hljs-selector-class">.MyPluginAutoConfiguration</span>
+</code></pre>
+<p>In the auto configuration file, we have the possibility to define beans to replace default behavior or configure other settings.</p>
+<p>For this tutorial, we keep it as simple as possible and our configuration is only used to define the configuration scan, for spring to discover our newly implemented classes:</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@ComponentScan</span>(basePackageClasses = {MyCRMFacet<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">MockMyCRMImpl</span>.<span class="hljs-title">class</span>})
+<span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">MyPluginAutoConfiguration</span> </span>{ }
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="53-facet-implementation"></a><a href="#53-facet-implementation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.3 Facet Implementation</h3>
+<p>To expand the information provided by a call to the Eureka API we use a DocumentFacet.<br>
+To implement a Facet we implement the <code>DocumentFacet</code> interface.<br>
+This interface only requires two functions to be implemented for the Facet to work: <code>getName</code> and <code>getValueType</code>, all other functionality has built-in default behavior which can be overwritten.<br>
+The main tool to implement our functionality is to use the document lifecycle hooks (<code>beforeCreate</code>, <code>afterCreate</code>, <code>beforeUpdate</code>, <code>afterUpdate</code>, <code>onDelete</code>, <code>onRetrieve</code>).<br>
+Another functionality we are going to implement is a validation mechanic to veto on an API call (<code>validateCreate</code>, <code>validateUpdate</code>, <code>validateDelete</code>).<br>
+The CRM implementation will be injected via <code>@Autowired</code>.</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCRMFacet</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DocumentFacet</span>&lt;<span class="hljs-title">CustomerInfoRecord</span>&gt; </span>{
+  <span class="hljs-meta">@Autowired</span>
+  <span class="hljs-keyword">private</span> MyCRM crm;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"myCRM"</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> JavaType <span class="hljs-title">getValueType</span><span class="hljs-params">(<span class="hljs-keyword">final</span> TypeFactory f)</span> </span>{
+    <span class="hljs-keyword">return</span> f.constructType(CustomerInfoRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Set&lt;ConstraintViolation&gt; <span class="hljs-title">validateCreate</span><span class="hljs-params">(DocumentDto requestDto)</span> </span>{
+    String customerId = getCustomerIdFromDto(requestDto);
+    <span class="hljs-keyword">if</span> (!crm.isCustomerIdValid(customerId)) {
+      <span class="hljs-keyword">return</span> ConstraintViolation.fail(<span class="hljs-keyword">this</span>, <span class="hljs-string">"Invalid customer ID: "</span> + customerId);
+    }
+    <span class="hljs-keyword">return</span> ConstraintViolation.none();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">beforeCreate</span><span class="hljs-params">(Document toBeCreated, DocumentDto requestDto)</span> </span>{
+    String customerId = getCustomerIdFromDto(requestDto);
+    crm.associateCustomerDocument(customerId, toBeCreated.getDocumentId());
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterCreate</span><span class="hljs-params">(Document persisted, DocumentDto responseDto)</span> </span>{
+    onRetrieve(persisted, responseDto);
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onRetrieve</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Document document, <span class="hljs-keyword">final</span> DocumentDto dto)</span> </span>{
+    dto.setFacet(getName(), crm.getCustomerInfo(document.getDocumentId()));
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDelete</span><span class="hljs-params">(Document currentDocument)</span></span>{
+    crm.removeDocumentAssociation(currentDocument.getDocumentId());
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getCustomerIdFromDto</span><span class="hljs-params">(DocumentDto dto)</span> </span>{
+    <span class="hljs-keyword">return</span> dto.getFacetData(<span class="hljs-keyword">this</span>).orElseThrow(
+        () -&gt; <span class="hljs-keyword">new</span> InvalidParameterException(<span class="hljs-string">"DTO must have customer-ID!"</span>)).getCustomerId();
+  }
+}
+</code></pre>
+<p><strong>getName()</strong>: return the name of the Facet must be unique.</p>
+<p><strong>getValueType(TypeFactory)</strong>: Using a Jackson TypeFactory to return a JavaType. This is used for serialization of your facet data. In our case, the <code>CustomerInfoRecord</code> class is used.</p>
+<p><strong>validateCreate(DocumentDto)</strong>: Here we have the ability to veto on the API call. In our case, we check if the call contains a customer ID and whether it is valid. Otherwise, we reject the call and return a  <code>ConstraintViolation</code>.</p>
+<p><strong>beforeCreate(Document, DocumentDto)</strong>: At this point, we can tell our CRM system that there will be a new document for our customer.</p>
+<p><strong>afterCreate(Document, DocumentDto)</strong>: After creation, the new document will be returned to the API caller so we use the <code>onRetrieve</code> function to prevent redundancy.</p>
+<p><strong>onRetrieve(Document, DocumentDto)</strong>: On retrieve we use the document ID to ask the CRM system to give us the customer information to add to the returned document.</p>
+<p>5.4 CRM Implementation
+The CRM interface is an exemplary interface to communicate with another system:</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyCRM</span> </span>{
+  <span class="hljs-function"><span class="hljs-keyword">public</span> CustomerInfoRecord <span class="hljs-title">getCustomerInfo</span><span class="hljs-params">(String documentId)</span></span>;
+
+  <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isCustomerIdValid</span><span class="hljs-params">(String customerId)</span></span>;
+
+  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">associateCustomerDocument</span><span class="hljs-params">(String customerId, String documentId)</span></span>;
+
+  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">removeDocumentAssociation</span><span class="hljs-params">(String documentId)</span></span>;
+}
+</code></pre>
+<p><strong>getCustomerInfo(String)</strong>: Returns a <code>CustomerInfoRecord</code> dependent on the document ID.</p>
+<p><strong>isCustomerIdValid(String)</strong>: Checks if the customer Id exists or is otherwise valid.</p>
+<p><strong>associateCustomerDocument(String, String)</strong>: This method is called when a new document gets associated with a customer.</p>
+<p><strong>removeDocumentAssociation(String)</strong>: This method disassociates a document from its user.</p>
+<p>For our tutorial, we implement this interface with a mock implementation (<code>MockMyCRMImpl</code>).</p>
+<p>This mock has only two customers with the IDs <code>0</code> and <code>1</code>.</p>
+<p><details>
+<summary>MockMyCRMImpl.java</summary></p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MockMyCRMImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MyCRM</span> </span>{
+
+  Map&lt;String, CustomerInfoRecord&gt; mockCustomerInfo;
+  Map&lt;String, String&gt; mockDocumentInfo;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MockMyCRMImpl</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">this</span>.mockCustomerInfo = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    mockCustomerInfo.put(<span class="hljs-string">"0"</span>, generateCustomerInfo(<span class="hljs-string">"0"</span>));
+    mockCustomerInfo.put(<span class="hljs-string">"1"</span>, generateCustomerInfo(<span class="hljs-string">"1"</span>));
+    <span class="hljs-keyword">this</span>.mockDocumentInfo = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> CustomerInfoRecord <span class="hljs-title">getCustomerInfo</span><span class="hljs-params">(String documentId)</span> </span>{
+    <span class="hljs-keyword">return</span> mockCustomerInfo.get(mockDocumentInfo.get(documentId));
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isCustomerIdValid</span><span class="hljs-params">(String customerId)</span> </span>{
+    <span class="hljs-keyword">return</span> mockCustomerInfo.containsKey(customerId);
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">associateCustomerDocument</span><span class="hljs-params">(String customerId, String documentId)</span> </span>{
+    mockDocumentInfo.put(documentId, customerId);
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">removeDocumentAssociation</span><span class="hljs-params">(String documentId)</span> </span>{
+    mockDocumentInfo.remove(documentId);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> CustomerInfoRecord <span class="hljs-title">generateCustomerInfo</span><span class="hljs-params">(String id)</span> </span>{
+    CustomerInfoRecord record = <span class="hljs-keyword">new</span> CustomerInfoRecord();
+    record.setCustomerId(id);
+    record.setAddress(id.equals(<span class="hljs-string">"0"</span>) ? <span class="hljs-string">"Bebelsbergstraße 31 - 71088 Holzgerlingen"</span> : <span class="hljs-string">"Haupstraße 1 - 10827 Berlin"</span>);
+    record.setFirstName(id.equals(<span class="hljs-string">"0"</span>) ? <span class="hljs-string">"Luigi"</span> : <span class="hljs-string">"Max"</span>);
+    record.setLastName(id.equals(<span class="hljs-string">"0"</span>) ? <span class="hljs-string">"Levigo"</span> : <span class="hljs-string">"Mustermann"</span>);
+    <span class="hljs-keyword">return</span> record;
+  }
+}
+</code></pre>
+<p></details></p>
+<p>To work with our Customer info and aid with communication between the Facet and our CRM implementation we define a simple data Object with fields for  <code>customerId</code>, <code>firstName</code>, <code>lastName</code> and <code>address</code>.</p>
+<p><details>
+<summary>CustomerInfoRecord.java</summary></p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomerInfoRecord</span> </span>{
+  <span class="hljs-keyword">private</span> String customerId;
+
+  <span class="hljs-keyword">private</span> String firstName;
+  <span class="hljs-keyword">private</span> String lastName;
+  <span class="hljs-keyword">private</span> String address;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFirstName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> firstName;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setFirstName</span><span class="hljs-params">(String firstName)</span> </span>{
+    <span class="hljs-keyword">this</span>.firstName = firstName;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLastName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> lastName;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setLastName</span><span class="hljs-params">(String lastName)</span> </span>{
+    <span class="hljs-keyword">this</span>.lastName = lastName;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAddress</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> address;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAddress</span><span class="hljs-params">(String address)</span> </span>{
+    <span class="hljs-keyword">this</span>.address = address;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getCustomerId</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> customerId;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCustomerId</span><span class="hljs-params">(String customerId)</span> </span>{
+    <span class="hljs-keyword">this</span>.customerId = customerId;
+  }
+}
+</code></pre>
+<p></details></p>
+<h2><a class="anchor" aria-hidden="true" id="6-test-the-results"></a><a href="#6-test-the-results" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Test the results</h2>
+<p>Start the Eureka server as described in previous tutorials.</p>
+<p>To easily test the results we recommend to use an API-testing Software like <a href="https://www.getpostman.com/">postman</a>.</p>
+<ol>
+<li>First, you have to get an authentification token:<br>
+In the **authorization  **tab choose OAuth2.0 as your **type **-&gt; klick <strong>get new access token</strong></li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/21142074/68847582-3414d980-06cf-11ea-85e7-a2ef1a316a51.png" alt=""></p>
+<ol start="2">
+<li>For your <strong>grant type</strong> select <strong>password credentials</strong> and fill in the information as shown in the picture.
+When all information is filled in click <strong>request token</strong></li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/21142074/68847601-3b3be780-06cf-11ea-8a85-f0db098260fe.png" alt=""></p>
+<ol start="3">
+<li>If successful a new token is generated and you can click use token.</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/21142074/68847611-3e36d800-06cf-11ea-9a5c-cfbf0da5d34c.png" alt=""></p>
+<ol start="4">
+<li>Now the Token is set you can build your API request:<br>
+Choose the HTTP-Method **POST **and type in the URL <code>localhost:8080/api/v1/documents/</code></li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/21142074/68847622-4131c880-06cf-11ea-899a-f8d3b5f13d02.png" alt=""></p>
+<ol start="5">
+<li>In the **body **tab choose **raw **-&gt; then choose **JSON  **
+In the body editor paste the following JSON object containing a document ID and a customer ID under the myCRM facet:</li>
+</ol>
+<pre><code class="hljs">{
+    <span class="hljs-attr">"documentId"</span>: <span class="hljs-string">"00000000-0000-0000-0000-000000000001"</span>,
+    <span class="hljs-attr">"myCRM"</span>: {<span class="hljs-attr">"customerId"</span>: <span class="hljs-string">"0"</span>}
+}
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/21142074/68847633-442cb900-06cf-11ea-905d-95c73f9bcc12.png" alt=""></p>
+<ol start="6">
+<li>Now click send and the result should look similar to this:</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/21142074/68848071-f3699000-06cf-11ea-9786-ca9b498f3f55.png" alt=""></p>
+<p>The customer information has been added to your response DTO.</p>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 12/12/2019 by Kevin Hertfelder</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial2"><span class="arrow-prev">← </span><span>Tutorial 2</span></a><a class="docs-next button" href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial4"><span>Tutorial 4</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#1-prerequisites">1. Prerequisites</a></li><li><a href="#2-installation">2. Installation</a></li><li><a href="#3-project-structure">3. Project structure:</a><ul class="toc-headings"><li><a href="#31-project-dependencies">3.1 Project dependencies</a></li></ul></li><li><a href="#4-plugin-scenairo">4 Plugin Scenairo</a></li><li><a href="#5-plugin-project-structure">5 Plugin Project structure</a><ul class="toc-headings"><li><a href="#51-plugin-project-dependencies">5.1 Plugin Project dependencies</a></li><li><a href="#52-plugin-configuration">5.2 Plugin Configuration</a></li><li><a href="#53-facet-implementation">5.3 Facet Implementation</a></li></ul></li><li><a href="#6-test-the-results">6. Test the results</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/neverpile-eureka-documentation/" class="nav-home"><img src="/neverpile-eureka-documentation/img/levigo-logo-white.svg" alt="neverpile eureka - dokumentation" width="60" height="60"/></a><div><h5>Docs</h5><a href="/neverpile-eureka-documentation/docs/de/index.html">Getting Started (or other categories)</a><a href="/neverpile-eureka-documentation/docs/de/dummy1.html">Guides (or other categories)</a><a href="/neverpile-eureka-documentation/docs/de/dummy2.html">API Reference (or other categories)</a></div><div><h5>GitHub</h5><a href="https://github.com/levigo/neverpile-eureka">Source Code</a><a href="https://github.com/levigo/neverpile-eureka/issues">Issues</a><a class="github-button" href="https://github.com/levigo/neverpile-eureka" data-icon="octicon-star" data-count-href="/levigo/neverpile-eureka" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div><div><h5>More</h5><a href="/neverpile-eureka-documentation/de/users.html">User Showcase</a></div></section><section class="copyright">Copyright © 2019 levigo solutions gmbH</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '',
+                indexName: '',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {}
+              });
+            </script></body></html>
