@@ -1,0 +1,6 @@
+{
+  "docs": {
+    "Documentation": ["index"],
+    "Docusaurus": ["dummy1", "dummy2"]
+  }
+}

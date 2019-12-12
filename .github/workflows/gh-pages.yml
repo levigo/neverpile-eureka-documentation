@@ -28,14 +28,14 @@ jobs:
       run: npm install
       
     - name: Build
-      run: hugo --minify
+      run: npm run build --prefix .\website\
 
     - name: Deploy
-      uses: docker://peaceiris/gh-pages:v2.5.1
+      uses: peaceiris/actions-gh-pages@v2
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./public  
+        PUBLISH_DIR: ./website/build  
 
     ## Notify Slack
     - name: Notify slack
