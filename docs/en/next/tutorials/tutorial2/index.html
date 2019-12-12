@@ -1,0 +1,470 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>neverpile eureka tutorial 2 · neverpile eureka - dokumentation</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This tutorial is a successor to [tutorial 1](/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial1) and aims to expand your neverpile eureka instance to support communication with a spring boot admin instance and enable health and performance monitoring."/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="neverpile eureka tutorial 2 · neverpile eureka - dokumentation"/><meta property="og:type" content="website"/><meta property="og:url" content="https://levigo.github.io/neverpile-eureka-documentation/"/><meta property="og:description" content="This tutorial is a successor to [tutorial 1](/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial1) and aims to expand your neverpile eureka instance to support communication with a spring boot admin instance and enable health and performance monitoring."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/neverpile-eureka-documentation/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/neverpile-eureka-documentation/js/scrollSpy.js"></script><link rel="stylesheet" href="/neverpile-eureka-documentation/css/main.css"/><script src="/neverpile-eureka-documentation/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/neverpile-eureka-documentation/en"><img class="logo" src="/neverpile-eureka-documentation/img/levigo-logo-white.svg" alt="neverpile eureka - dokumentation"/><h2 class="headerTitleWithLogo">neverpile eureka - dokumentation</h2></a><a href="/neverpile-eureka-documentation/en/versions"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/neverpile-eureka-documentation/img/language.svg" alt="Languages icon"/>English</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/neverpile-eureka-documentation/docs/de/next/tutorials/tutorial2">Deutsch</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class=""><a href="/neverpile-eureka-documentation/docs/en/next/" target="_self">Docs</a></li><li class=""><a href="/neverpile-eureka-documentation/docs/en/next/api" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/neverpile-eureka-documentation/docs/en/next/tutorials/" target="_self">Tutorials</a></li><li class=""><a href="/neverpile-eureka-documentation/en/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Tutorials</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Tutorials</h3><ul class=""><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/en/next/tutorials/">Home</a></li><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial1">Tutorial 1</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial2">Tutorial 2</a></li><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial3">Tutorial 3</a></li><li class="navListItem"><a class="navItem" href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial4">Tutorial 4</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">neverpile eureka tutorial 2</h1></header><article><div><span><p>This tutorial is a successor to <a href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial1">tutorial 1</a> and aims to expand your neverpile eureka instance to support communication with a spring boot admin instance and enable health and performance monitoring.</p>
+<h2><a class="anchor" aria-hidden="true" id="1-prerequisites"></a><a href="#1-prerequisites" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Prerequisites</h2>
+<p>JDK 1.8+ installed with JAVA_HOME configured appropriately<br>
+Apache Maven 3.5+</p>
+<h2><a class="anchor" aria-hidden="true" id="2-installation"></a><a href="#2-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Installation</h2>
+<p>Clone the git repository:</p>
+<pre><code class="hljs">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://levigo.de/bitbucket/scm/np/neverpile-eureka-getting-<span class="hljs-literal">started</span>.git
+</code></pre>
+<p>Alternatively, download and extract the repository from <a href="https://github.com/levigo/neverpile-eureka-getting-started/archive/master.zip">here</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="3-project-structure"></a><a href="#3-project-structure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Project structure:</h2>
+<p>Subject to this tutorial is the module <code>neverpile-eureka-tutorial-02</code> and <code>spring-boot-admin-server</code>.</p>
+<p>The project structure is reminiscent of the <a href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">standard Maven project structure</a>. Our project structure for the following tutorial is laid out as follows:</p>
+<pre><code class="hljs">├── pom.xml                     - Project Maven pom file.
+├── src/main/java/                  - Project Java source directory.
+│   └── com/neverpile/eureka/server/            - Tutorial<span class="hljs-built_in"> server </span>package name.
+│   ├── NeverpileEureka.java            - Spring start class.
+│   └── configuration/              - Configuration package.
+│       ├── GlobalAuthenticationConfig.java     -<span class="hljs-built_in"> Server </span>authentication configuration.
+|           ├── SecurityConfig.java         -<span class="hljs-built_in"> Server </span>security configuration.
+|           └── SpringBootAdminSecurityConfig.java  - Spring boot admin configuration.
+└── src/main/resources/                 - Static project resources.
+    └── application.yml                 - neverpile eureka configuration file.
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="31-project-dependencies"></a><a href="#31-project-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 Project dependencies</h3>
+<p>In addition to the dependencies in the first tutorial, one new dependency was added to enable spring boot admin functionality.</p>
+<pre><code class="hljs css language-XML"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>de.codecentric<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-admin-starter-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre>
+<p>The complete pom.xml file:
+<details>
+<summary>pom.xml</summary></p>
+<pre><code class="hljs css language-XML"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span>
+         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-getting-started<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-tutorial-02<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>war<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- neverpile --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${neverpile-eureka.version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Spring (-Boot) --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-jta-atomikos<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-devtools<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>de.codecentric<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-admin-starter-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- spring and cassandra version incompatibility --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.dropwizard.metrics<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>metrics-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- spring and elastic version incompatibility --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>7.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch.client<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch-rest-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>7.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch.client<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch-rest-high-level-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>7.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${spring-boot.version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+
+      <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-war-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">failOnMissingWebXml</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">failOnMissingWebXml</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span>
+</code></pre>
+<p></details></p>
+<h3><a class="anchor" aria-hidden="true" id="32-configuration"></a><a href="#32-configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2 Configuration</h3>
+<p>To configure access to the neverpiles application detect and to register with the spring boot admin server a new configuration file is needed.<br>
+For the spring boot admin server to access the necessary and secured endpoints we have to generate a new user with a corresponding <code>SBA</code>(spring boot admin) role.<br>
+The credentials of this user will be passed to the spring boot admin server at startup and will be used by the server for communication with neverpile eureka.</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@Order</span>(<span class="hljs-number">98</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringBootAdminSecurityConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MetadataContributor</span> </span>{
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String SBA_USER_NAME = <span class="hljs-string">"spring-boot-admin"</span>;
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String randomPassword;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SpringBootAdminSecurityConfig</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">super</span>(<span class="hljs-keyword">true</span>);
+    randomPassword = java.util.UUID.randomUUID().toString();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(<span class="hljs-keyword">final</span> HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    http.requestMatcher(EndpointRequest.toAnyEndpoint()).authorizeRequests() <span class="hljs-comment">//</span>
+        .anyRequest().hasRole(<span class="hljs-string">"SBA"</span>) <span class="hljs-comment">//</span>
+        .and().httpBasic().authenticationEntryPoint(authenticationEntryPoint());
+  }
+
+  <span class="hljs-meta">@Bean</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> AuthenticationEntryPoint <span class="hljs-title">authenticationEntryPoint</span><span class="hljs-params">()</span> </span>{
+    BasicAuthenticationEntryPoint entryPoint = <span class="hljs-keyword">new</span> BasicAuthenticationEntryPoint();
+    entryPoint.setRealmName(<span class="hljs-string">"admin realm"</span>);
+    <span class="hljs-keyword">return</span> entryPoint;
+  }
+
+  <span class="hljs-meta">@Bean</span>
+  <span class="hljs-function">GlobalAuthenticationConfigurerAdapter <span class="hljs-title">authConfigurer</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> GlobalAuthenticationConfigurerAdapter() {
+      <span class="hljs-meta">@Override</span>
+      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(<span class="hljs-keyword">final</span> AuthenticationManagerBuilder auth)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        auth.inMemoryAuthentication().withUser(SBA_USER_NAME).password(<span class="hljs-string">"{noop}"</span> + randomPassword).roles(<span class="hljs-string">"SBA"</span>);
+      }
+    };
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Map&lt;String, String&gt; <span class="hljs-title">getMetadata</span><span class="hljs-params">()</span> </span>{
+    HashMap&lt;String, String&gt; metadata = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    metadata.put(<span class="hljs-string">"user.name"</span>, SBA_USER_NAME);
+    metadata.put(<span class="hljs-string">"user.password"</span>, randomPassword);
+    <span class="hljs-keyword">return</span> metadata;
+  }
+}
+</code></pre>
+<p><strong>Constructor</strong>: disable default behavior and generate a random password.</p>
+<p><strong>configure(final HttpSecurity http)</strong>: configure all incoming request by a spring boot admin user to use the later specified entry point</p>
+<p><strong>authenticationEntryPoint()</strong>: defines the <code>authenticationEntryPoint</code> to be used by spring boot admin users.</p>
+<p><strong>authConfigurer()</strong>: register a new in-memory authenticated user for spring boot admin.</p>
+<p><strong>getMetadata()</strong>: define the metadata with the user credentials to be sent to spring boot admin when registering as a new application.</p>
+<p>Note: this configuration file has a <code>\@Order</code> of <code>98</code> defined. This ensures this configuration to have precedence over <code>SecurityConfig</code> described in tutorial 1, which has a defined order number of <code>99</code>.
+(Higher values are interpreted as a lower priority.)</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@Order</span>(<span class="hljs-number">99</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> </span>{
+...
+}
+</code></pre>
+<p>The SecurityConfig remains unchanged otherwise.</p>
+<p>At last we have to configure some properties in the application.yml configuration file:</p>
+<pre><code class="hljs css language-YML"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">boot.admin.client:</span>
+      <span class="hljs-attr">url:</span> <span class="hljs-string">[http://localhost:1001]</span>
+      <span class="hljs-attr">username:</span> <span class="hljs-string">admin</span>
+      <span class="hljs-attr">password:</span> <span class="hljs-string">admin</span>
+  <span class="hljs-attr">endpoints:</span>
+    <span class="hljs-attr">web:</span>
+      <span class="hljs-attr">exposure:</span>
+        <span class="hljs-attr">include:</span> <span class="hljs-string">'*'</span>
+  <span class="hljs-attr">endpoint:</span>
+    <span class="hljs-attr">health:</span>
+      <span class="hljs-attr">show-details:</span> <span class="hljs-string">always</span> 
+<span class="hljs-string">...</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>Configuration key</th><th>Value</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>spring.boot.admin.client.url spring.boot.admin.client.username spring.boot.admin.client.admin</td><td><a href="http://localhost:1001">http://localhost:1001</a><br/> admin<br/> admin</td><td>the URL of the spring boot admin server. demo spring boot admin server user. demo spring boot admin server password.</td></tr>
+<tr><td>spring.endpoints.web.exposure.include (spring.endpoints.web.exposure.exclude)</td><td>*<br/> </td><td>exposed application endpoints. (Expose all endpoints for simplicity. please choose the exposed endpoints carefully for production.)</td></tr>
+<tr><td>spring.endpoint.health.show-details</td><td>always</td><td>expose all health details at the health endpoint.</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="4-set-up-spring-boot-admin"></a><a href="#4-set-up-spring-boot-admin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Set up spring boot admin</h2>
+<p>An instance of spring boot admin should be run independently from the neverpile eureka cluster. For this tutorial, the spring boot admin server is included in the getting started repository in its own module <code>spring-boot-admin-server</code>.</p>
+<p>This spring boot admin server implementation is exemplary and can be substituted for any other deployment with the same version.</p>
+<h3><a class="anchor" aria-hidden="true" id="41-project-structure"></a><a href="#41-project-structure" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.1 Project structure</h3>
+<p>The project structure and setup is similar to the neverpile eureka.</p>
+<pre><code class="hljs">├── pom.xml                 - Project Maven pom file.
+├── src/main/java/              - Project Java source directory.
+│   └── com/levigo/springbootserver/        - Tutorial<span class="hljs-built_in"> server </span>package name.
+│   ├── SpringBootAdminServer.java      - Spring start class.
+│   └── SecurityConfig.java         - Security configuration file.
+└── src/main/resources/             - Static project resources.
+    └── application.yml             - Spring boot admin configuration file.
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="411-project-dependencies"></a><a href="#411-project-dependencies" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.1.1 Project dependencies</h3>
+<p>We use springs own security framework and the spring boot UI from codecentric in this tutorial:</p>
+<pre><code class="hljs css language-XML"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>de.codecentric<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-admin-starter-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre>
+<p>The complete pom.xml file:
+<details>
+<summary>pom.xml</summary></p>
+<pre><code class="hljs css language-XML"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span>
+                 <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+                 <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>neverpile-eureka-getting-started<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.neverpile<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-admin-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>jar<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>de.codecentric<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-admin-starter-server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>repackage<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>build-info<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">mainClass</span>&gt;</span>com.levigo.springbootadmin.SpringBootAdminServer<span class="hljs-tag">&lt;/<span class="hljs-name">mainClass</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">addResources</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">addResources</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span>
+</code></pre>
+<p></details></p>
+<h3><a class="anchor" aria-hidden="true" id="412-project-entry-point"></a><a href="#412-project-entry-point" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.1.2 Project entry point</h3>
+<p>The server is set up as a spring boot application and therefore needs to be annotated with <code>@SpringBootApplication</code>.  This annotation sets up this class as an entry point for spring boot.<br>
+To enable spring boot admin on your application annotate the class with <code>@EnableAdminServer</code>.</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@EnableAdminServer</span>
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringBootAdminServer</span> </span>{
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String[] args)</span> </span>{
+    SpringApplication.run(SpringBootAdminServer<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+  }
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="413-configuration"></a><a href="#413-configuration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.1.3 Configuration</h3>
+<p>The <code>SecurityConfig</code> is similar to the config used in neverpile eureka and defines access rules for the spring boot admin server:</p>
+<pre><code class="hljs css language-JAVA"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> </span>{
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String adminContextPath;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SecurityConfig</span><span class="hljs-params">(<span class="hljs-keyword">final</span> AdminServerProperties adminServerProperties)</span> </span>{
+    <span class="hljs-keyword">super</span>(<span class="hljs-keyword">false</span>);
+    <span class="hljs-keyword">this</span>.adminContextPath = adminServerProperties.getContextPath();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(<span class="hljs-keyword">final</span> HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+      SavedRequestAwareAuthenticationSuccessHandler successHandler = <span class="hljs-keyword">new</span> SavedRequestAwareAuthenticationSuccessHandler();
+      successHandler.setTargetUrlParameter(<span class="hljs-string">"redirectTo"</span>);
+      http.authorizeRequests()
+          .antMatchers(adminContextPath + <span class="hljs-string">"/assets/**"</span>).permitAll()
+          .antMatchers(adminContextPath + <span class="hljs-string">"/login"</span>).permitAll()
+          .anyRequest().authenticated()
+          .and()
+      .formLogin().loginPage(adminContextPath + <span class="hljs-string">"/login"</span>).successHandler(successHandler).and()
+      .logout().logoutUrl(adminContextPath + <span class="hljs-string">"/logout"</span>).and()
+      .httpBasic().and()
+      .csrf().disable();
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(<span class="hljs-keyword">final</span> WebSecurity web)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    web.ignoring().antMatchers(HttpMethod.OPTIONS);
+  }
+
+  <span class="hljs-meta">@Bean</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> FilterRegistrationBean&lt;CorsFilter&gt; <span class="hljs-title">corsFilterRegistrationBean</span><span class="hljs-params">()</span> </span>{
+    UrlBasedCorsConfigurationSource source = <span class="hljs-keyword">new</span> UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = <span class="hljs-keyword">new</span> CorsConfiguration();
+    config.applyPermitDefaultValues();
+    config.setAllowCredentials(<span class="hljs-keyword">true</span>);
+    config.setAllowedOrigins(Collections.singletonList(<span class="hljs-string">"*"</span>));
+    config.setAllowedHeaders(Collections.singletonList(<span class="hljs-string">"*"</span>));
+    config.setAllowedMethods(Collections.singletonList(<span class="hljs-string">"*"</span>));
+    config.setExposedHeaders(Collections.singletonList(<span class="hljs-string">"content-length"</span>));
+    config.setMaxAge(<span class="hljs-number">3600L</span>);
+    source.registerCorsConfiguration(<span class="hljs-string">"/**"</span>, config);
+    FilterRegistrationBean&lt;CorsFilter&gt; bean = <span class="hljs-keyword">new</span> FilterRegistrationBean&lt;&gt;(<span class="hljs-keyword">new</span> CorsFilter(source));
+    bean.setOrder(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">return</span> bean;
+  }
+}
+</code></pre>
+<p><strong>Constructor</strong>: enable default behavior and save injected adminServerProperties.</p>
+<p><strong>configure(final HttpSecurity http)</strong>: configure endpoints to the login page and HTML assets to be freely accessible and all other endpoints to require an authenticated user. Also, manage redirects for login and logout calls.</p>
+<p><strong>configure(final WebSecurity web)</strong>: ignore Requests with <code>OPTION</code> Method for Browser preflights requests.</p>
+<p><strong>corsFilterRegistrationBean()</strong>: Cors filter to allow requests from all origins.</p>
+<p>At last, we have to configure some properties in the application.yml configuration file:</p>
+<pre><code class="hljs css language-YML"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">spring-boot-admin</span>
+  <span class="hljs-attr">security:</span>
+    <span class="hljs-attr">user:</span>
+      <span class="hljs-attr">name:</span> <span class="hljs-string">"admin"</span>
+      <span class="hljs-attr">password:</span> <span class="hljs-string">"admin"</span>
+  
+<span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">1001</span>
+</code></pre>
+<table>
+<thead>
+<tr><th>Configuration key</th><th>Value</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>spring.application.name</td><td>spring-boot-admin</td><td>The application name as String.</td></tr>
+<tr><td>spring.security.user.name spring.security.user.password</td><td>&quot;admin&quot;<br/> &quot;admin&quot;</td><td>Demo username for spring boot admin server. Password for demo user for spring boot admin server.</td></tr>
+<tr><td>server.port</td><td>1001</td><td>Override the default port 8080.</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="5-run-the-servers"></a><a href="#5-run-the-servers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Run the servers</h2>
+<p>Now we have configured both neverpile eureka and a spring boot admin server to communicate with each other.</p>
+<p>To see the results first start the spring boot admin server and then start the neverpile server.</p>
+<p>If successful the neverpile eureka server should log <code>Application registered itself as &lt;ID&gt;</code>. (This may take a view seconds.)</p>
+<p>To test the cluster functionality of neverpile eureka you can start multiple instances of neverpile eureka and monitor the cluster through spring boot admin.</p>
+<p>To run multiple instances on the same host for testing purposes the instances have to use different ports. to change the used port on your spring boot application you can start the application with the <code>-Dserver.port=&lt;PortNo&gt;</code> flag.</p>
+<h2><a class="anchor" aria-hidden="true" id="6-finish"></a><a href="#6-finish" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Finish</h2>
+<p>With both servers running you can now access spring boot admin through your browser at:</p>
+<p><a href="http://localhost:1001">http://localhost:1001</a> - login page</p>
+<p>and login with user &quot;admin&quot; and password &quot;admin&quot;.</p>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 12/12/2019 by Kevin Hertfelder</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial1"><span class="arrow-prev">← </span><span>Tutorial 1</span></a><a class="docs-next button" href="/neverpile-eureka-documentation/docs/en/next/tutorials/tutorial3"><span>Tutorial 3</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#1-prerequisites">1. Prerequisites</a></li><li><a href="#2-installation">2. Installation</a></li><li><a href="#3-project-structure">3. Project structure:</a><ul class="toc-headings"><li><a href="#31-project-dependencies">3.1 Project dependencies</a></li><li><a href="#32-configuration">3.2 Configuration</a></li></ul></li><li><a href="#4-set-up-spring-boot-admin">4. Set up spring boot admin</a><ul class="toc-headings"><li><a href="#41-project-structure">4.1 Project structure</a></li><li><a href="#411-project-dependencies">4.1.1 Project dependencies</a></li><li><a href="#412-project-entry-point">4.1.2 Project entry point</a></li><li><a href="#413-configuration">4.1.3 Configuration</a></li></ul></li><li><a href="#5-run-the-servers">5. Run the servers</a></li><li><a href="#6-finish">6. Finish</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/neverpile-eureka-documentation/" class="nav-home"><img src="/neverpile-eureka-documentation/img/levigo-logo-white.svg" alt="neverpile eureka - dokumentation" width="60" height="60"/></a><div><h5>Docs</h5><a href="/neverpile-eureka-documentation/docs/en/index.html">Getting Started (or other categories)</a><a href="/neverpile-eureka-documentation/docs/en/dummy1.html">Guides (or other categories)</a><a href="/neverpile-eureka-documentation/docs/en/dummy2.html">API Reference (or other categories)</a></div><div><h5>GitHub</h5><a href="https://github.com/levigo/neverpile-eureka">Source Code</a><a href="https://github.com/levigo/neverpile-eureka/issues">Issues</a><a class="github-button" href="https://github.com/levigo/neverpile-eureka" data-icon="octicon-star" data-count-href="/levigo/neverpile-eureka" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div><div><h5>More</h5><a href="/neverpile-eureka-documentation/en/users.html">User Showcase</a></div></section><section class="copyright">Copyright © 2019 levigo solutions gmbH</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '',
+                indexName: '',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {}
+              });
+            </script></body></html>
