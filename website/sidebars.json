@@ -1,6 +1,15 @@
 {
-  "docs": {
+  "Documentation": {
     "Documentation": ["index"],
-    "Docusaurus": ["dummy1", "dummy2"]
+    "Other Docu": ["dummy1", "dummy2"]   
+  },
+  "Tutorials": {
+    "Tutorials":["tutorials/index",
+      "tutorials/tutorial1",
+      "tutorials/tutorial2",
+      "tutorials/tutorial3",
+      "tutorials/tutorial4"]
+  },
+  "KnowledgeBase": {
   }
 }

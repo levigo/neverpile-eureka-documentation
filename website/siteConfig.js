@@ -34,6 +34,7 @@ const siteConfig = {
 	  { languages: true },
     { doc: 'index', label: 'Docs' },
     { doc: 'api', label: 'API' },
+    { doc: 'tutorials/index', label: 'Tutorials' },
     { page: 'help', label: 'Help' }
   ],
 
