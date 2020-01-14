@@ -9,18 +9,15 @@
         "title": "API",
         "sidebar_label": "API Page"
       },
-      "dummy1": {
-        "title": "Latin-ish"
-      },
-      "dummy2": {
-        "title": "Links"
-      },
       "index": {
-        "title": "Documentation",
+        "title": "neverpile eureka Documentation",
         "sidebar_label": "Start Page"
       },
+      "starter-bom": {
+        "title": "dependency management / BOM"
+      },
       "tutorials/index": {
-        "title": "neverpile eureka tutorials",
+        "title": "Getting started with neverpile eureka",
         "sidebar_label": "Home"
       },
       "tutorials/tutorial1": {
@@ -38,6 +35,9 @@
       "tutorials/tutorial4": {
         "title": "neverpile eureka tutorial 4",
         "sidebar_label": "Tutorial 4"
+      },
+      "web-client-setup": {
+        "title": "web client setup"
       },
       "version-1.0.0/version-1.0.0-api": {
         "title": "API",

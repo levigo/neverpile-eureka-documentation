@@ -21,15 +21,15 @@ Subject to this tutorial is the module `neverpile-eureka-tutorial-01`.
 
 The project structure is reminiscent of the [standard Maven project structure](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html). Our project structure for the following tutorial is laid out as follows:
 ```
-├── pom.xml						- Project Maven pom file.
-├── src/main/java/					- Project Java source directory.
-│   └── com/neverpile/eureka/server/			- Tutorial server package name.
-│	├── NeverpileEureka.java	                - Spring start class.
-│	└── configuration/				- Configuration package.
-│	    ├── GlobalAuthenticationConfig.java		- Server authentication configuration.
-|	    └── SecurityConfig.java			- Server security configuration.
-└── src/main/resources/					- Static project resources.
-    └── application.yml					- neverpile eureka configuration file.
+├── pom.xml                                      - Project Maven pom file.
+├── src/main/java/                               - Project Java source directory.
+│   └── com/neverpile/eureka/server/             - Tutorial server package name.
+│       ├── NeverpileEureka.java                 - Spring start class.
+│       └── configuration/                       - Configuration package.
+│           ├── GlobalAuthenticationConfig.java  - Server authentication configuration.
+|           └── SecurityConfig.java              - Server security configuration.
+└── src/main/resources/                          - Static project resources.
+    └── application.yml                          - neverpile eureka configuration file.
 ```
 
 

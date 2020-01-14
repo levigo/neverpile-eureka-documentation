@@ -1,10 +1,9 @@
 ---
 id: index
-title: neverpile eureka tutorials
+title: Getting started with neverpile eureka
 sidebar_label: Home
 ---
 
-Getting started with neverpile eureka
 Looking for a simple and practical entry point for development with neverpile eureka? 
 In the following tutorials we will show how easy it is to set up your project for development with neverpile eureka and learn the underlying concepts step by step.
 

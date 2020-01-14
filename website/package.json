@@ -5,9 +5,7 @@
     "build": "docusaurus-build",
     "write-translations": "",
     "version": "docusaurus-version",
-    "rename-version": "docusaurus-rename-version",
-    "crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b master",
-    "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
+    "rename-version": "docusaurus-rename-version"
   },
   "devDependencies": {
     "docusaurus": "^1.14.3"

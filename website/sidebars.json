@@ -1,7 +1,7 @@
 {
   "Documentation": {
     "Documentation": ["index"],
-    "Other Docu": ["dummy1", "dummy2"]   
+    "Other Docu": ["web-client-setup", "starter-bom"]   
   },
   "Tutorials": {
     "Tutorials":["tutorials/index",

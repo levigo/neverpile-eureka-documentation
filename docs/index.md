@@ -1,27 +1,34 @@
 ---
 id: index
-title: Documentation
+title: neverpile eureka Documentation
 sidebar_label: Start Page
 ---
 
-## English 2.0.0
+## Developer’s Documentation
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+Welcome to the neverpile eureka Developer’s Documentation. This documentation introduces the key concepts, tools, and libraries you’ll encounter when building applications with neverpile eureka. The topics in this documentation span project organization, coding, debugging, testing and publishing your web application.
 
-## Mauris In Code
+## [Tutorials](tutorials/index.md)
+To get started quickly we recommend to work through the [getting started tutorial series](tutorials/index.md).
 
-```
-Mauris vestibulum ullamcorper nibh, ut semper purus pulvinar ut. Donec volutpat orci sit amet mauris malesuada, non pulvinar augue aliquam. Vestibulum ultricies at urna ut suscipit. Morbi iaculis, erat at imperdiet semper, ipsum nulla sodales erat, eget tincidunt justo dui quis justo. Pellentesque dictum bibendum diam at aliquet. Sed pulvinar, dolor quis finibus ornare, eros odio facilisis erat, eu rhoncus nunc dui sed ex. Nunc gravida dui massa, sed ornare arcu tincidunt sit amet. Maecenas efficitur sapien neque, a laoreet libero feugiat ut.
-```
+[Tutorial 1](tutorials/Tutorial-1.md) - Basic Setup  
+[Tutorial 2](tutorials/Tutorial-2.md) - Monitoring with Spring Boot Admin  
+[Tutorial 3](tutorials/Tutorial-3.md) - Building my first plugin  
+[Tutorial 4](tutorials/Tutorial-4.md) - integration with levigo JWT  
 
-## Nulla
+## Developer Guide
 
-Nulla facilisi. Maecenas sodales nec purus eget posuere. Sed sapien quam, pretium a risus in, porttitor dapibus erat. Sed sit amet fringilla ipsum, eget iaculis augue. Integer sollicitudin tortor quis ultricies aliquam. Suspendisse fringilla nunc in tellus cursus, at placerat tellus scelerisque. Sed tempus elit a sollicitudin rhoncus. Nulla facilisi. Morbi nec dolor dolor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras et aliquet lectus. Pellentesque sit amet eros nisi. Quisque ac sapien in sapien congue accumsan. Nullam in posuere ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin lacinia leo a nibh fringilla pharetra.
+[web client setup](web-client-setup.md)
 
-## Orci
 
-Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin venenatis lectus dui, vel ultrices ante bibendum hendrerit. Aenean egestas feugiat dui id hendrerit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur in tellus laoreet, eleifend nunc id, viverra leo. Proin vulputate non dolor vel vulputate. Curabitur pretium lobortis felis, sit amet finibus lorem suscipit ut. Sed non mollis risus. Duis sagittis, mi in euismod tincidunt, nunc mauris vestibulum urna, at euismod est elit quis erat. Phasellus accumsan vitae neque eu placerat. In elementum arcu nec tellus imperdiet, eget maximus nulla sodales. Curabitur eu sapien eget nisl sodales fermentum.
+## Reference
 
-## Phasellus
 
-Phasellus pulvinar ex id commodo imperdiet. Praesent odio nibh, sollicitudin sit amet faucibus id, placerat at metus. Donec vitae eros vitae tortor hendrerit finibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vitae purus dolor. Duis suscipit ac nulla et finibus. Phasellus ac sem sed dui dictum gravida. Phasellus eleifend vestibulum facilisis. Integer pharetra nec enim vitae mattis. Duis auctor, lectus quis condimentum bibendum, nunc dolor aliquam massa, id bibendum orci velit quis magna. Ut volutpat nulla nunc, sed interdum magna condimentum non. Sed urna metus, scelerisque vitae consectetur a, feugiat quis magna. Donec dignissim ornare nisl, eget tempor risus malesuada quis.
+## Demos
+
+If you want to try out neverpile eureka with a demo installation you can try out one of demo projects. These projects showcase a multitude of features available in in a working configuration out-of-the-box. 
+
+Spring Boot demo : [GitHub](https://github.com/levigo/neverpile-eureka-demos)  
+Docker container demo : [GitHub](https://github.com/levigo/neverpile-eureka-demos)  
+Feign Java-client demo : [Github](https://github.com/levigo/neverpile-eureka-java-client)
+
